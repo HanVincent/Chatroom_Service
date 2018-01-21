@@ -1,0 +1,22 @@
+{
+  "name": "chat_app",
+  "version": "1.0.0",
+  "description": "Implement a chat app by Udemy course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HanVincent/Chat_App.git"
+  },
+  "author": "Vincent Han",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HanVincent/Chat_App/issues"
+  },
+  "homepage": "https://github.com/HanVincent/Chat_App#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
