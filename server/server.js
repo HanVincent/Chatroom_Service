@@ -3,9 +3,9 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
-const {generateMessage, generateLocationMessage} = require('./utils/message');
-const {isRealString} = require('./utils/validation');
-const {Users} = require('./utils/users');
+const { generateMessage, generateLocationMessage } = require('./utils/message');
+const { isRealString } = require('./utils/validation');
+const { Users } = require('./utils/users');
 
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
@@ -20,7 +20,7 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('New user connected');
     socket.on('join', (params, callback) => {
-        if(!params.name || !params.room) {
+        if (!params.name || !params.room) {
             return callback('Name and room are required!');
         }
 
@@ -40,21 +40,28 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createMessage', (message, callback) => {
-        console.log('createMessage', message);
-        // send message to all except itself
-        // socket.broadcast.emit('newMessage', generateMessage(message.from, message.text));
-        io.emit('newMessage', generateMessage(message.from, message.text));
-        callback('This text is from server');        
+        const user = users.getUser(socket.id);
+
+        if (user && isRealString(message.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+        }
+
+        callback('This text is from server');
     });
 
     socket.on('createLocationMessage', (coords, callback) => {
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+        const user = users.getUser(socket.id);
+
+        if (user) {
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
+
     });
 
     socket.on('disconnect', () => {
         const user = users.removeUser(socket.id);
 
-        if(user) {
+        if (user) {
             io.to(user.room).emit('updateUserList', users.getUserList(user.room));
             io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left.`));
         }
