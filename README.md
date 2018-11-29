@@ -1,10 +1,6 @@
 # Chat App in node.js
 
-Chat App - the first project after I learn node.js following with Node.js tutorial course on Udemy. 
-
-## Getting Started
-
-Now, I deploy the app on Heroku, but I don't have much stream to release.
+Chat App - the first project after I learned node.js following with Node.js tutorial course on Udemy. 
 
 ## Features
 
