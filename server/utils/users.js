@@ -10,7 +10,7 @@ class Users {
     }
     removeUser(id) {
         const user = this.getUser(id);
-        
+
         if (user) {
             this.users = this.users.filter((user) => user.id !== id);
         }
@@ -20,10 +20,16 @@ class Users {
     getUser(id) {
         return this.users.filter((user) => user.id === id)[0];
     }
+    getOtherUsers(room, itself) {
+        return this.users.filter(user => user.room === room).filter(user => user.id !== itself);
+    }
     getUserList(room) {
         const users = this.users.filter((user) => user.room === room);
-        const namesArray = users.map((user) => user.name);
-        return namesArray;
+        return users;
+    }
+    getUserNameList(room) {
+        const userNames = this.getUserList(room).map((user) => user.name);
+        return userNames;
     }
 }
 
