@@ -33,7 +33,8 @@ io.on('connection', (socket) => {
         io.to(params.room).emit('updateUserList', users.getUserNameList(params.room));
 
         // socket.emit('newMessage', generateMessage('Admin', 'Welcome to the WhoIsSpy game. Please use "/whoisspy term1,term2,_ num1,num2,num3"'));
-        socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chatroom with WhoIsSpy game. Considering security concern, I only show the chatroom prototype.'));
+        socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chatroom with WhoIsSpy game.'));
+        socket.emit('newMessage', generateMessage('Admin', 'Considering security concern, I only show the chatroom prototype.'));
 
         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} join`));
 
